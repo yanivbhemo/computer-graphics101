@@ -1,16 +1,4 @@
 from tkinter import *
-from pynput.mouse import Listener
-import pyautogui
-
-#
-# def on_click(x, y, button, pressed):
-#     print('{0} at {1}'.format(
-#         'Pressed' if pressed else 'Released',
-#         (x, y)))
-#     return x, y
-#
-# with Listener(on_click=on_click) as listener:
-#     listener.join()
 
 def putPixel(x,y, color="red"):
     img.put(color, (x, y))
@@ -42,7 +30,6 @@ def DDAalgorithm(x1=5,y1=4,x2=50,y2=30):
 
 def motion(event):
     x, y = event.x, event.y
-    print('{}, {}'.format(x, y))
     putPixel(x,y)
 
 
@@ -56,9 +43,6 @@ w.pack()
 
 img = PhotoImage(width=screen_width, height=screen_height)
 w.create_image((screen_width/2, screen_height/2), image=img, state="normal")
-
-# for i in range(600):
-#     putPixel(i,i)
 
 DDAalgorithm()
 window.bind('<Motion>', motion)
