@@ -28,7 +28,7 @@ def drawAcurve(event):
         putPixel(coordinates[2], coordinates[3])
         putPixel(coordinates[4], coordinates[5])
         putPixel(coordinates[6], coordinates[7])
-        myBezier(coordinates[0],coordinates[2],coordinates[4],coordinates[6], coordinates[1], coordinates[3], coordinates[5], coordinates[7])
+        myBezier(coordinates[0],coordinates[2],coordinates[4],coordinates[6], coordinates[1], coordinates[3], coordinates[5], coordinates[7], numOfSegments_g)
 
 def putPixel(x, y, color="red"):
     img.put(color, (x, y))
@@ -104,7 +104,7 @@ def myCircle2(xc, x2, yc, y2):
         plot_circle_points(xc, yc, y, x)
 
 
-def myBezier(x1,x2,x3,x4,y1,y2,y3,y4,numOfSegments=10):
+def myBezier(x1,x2,x3,x4,y1,y2,y3,y4,numOfSegments):
     path_positions = [(x1,y1), (x2,y2), (x3,y3), (x4,y4)]
 
     P0 = path_positions[0]
@@ -143,9 +143,11 @@ def handle_circle_menu():
     window.bind('<Button-1>', drawAcircle)
 
 
-def handle_curve_menu():
+def handle_curve_menu(numOfSegments):
     window.bind('<Button-1>', drawAcurve)
-
+    print(numOfSegments)
+    global numOfSegments_g
+    numOfSegments_g = numOfSegments
 
 line = line.Line()
 circle = circle.Circle()
@@ -168,7 +170,13 @@ drawmenu = Menu(menu, tearoff=0)
 menu.add_cascade(label='Draw', menu=drawmenu)
 drawmenu.add_command(label='Line', command=handle_line_menu)
 drawmenu.add_command(label='Circle', command=handle_circle_menu)
-drawmenu.add_command(label='Curve', command=handle_curve_menu)
+curvemenu = Menu(drawmenu, tearoff=0)
+drawmenu.add_cascade(label='Curve', menu=curvemenu)
+curvemenu.add_command(label='4', command=lambda: handle_curve_menu(4))
+curvemenu.add_command(label='10', command=lambda: handle_curve_menu(10))
+curvemenu.add_command(label='20', command=lambda: handle_curve_menu(20))
+curvemenu.add_command(label='30', command=lambda: handle_curve_menu(30))
+curvemenu.add_command(label='40', command=lambda: handle_curve_menu(40))
 
 w.pack()
 window.mainloop()
