@@ -1,4 +1,6 @@
 from tkinter import *
+import time
+import numpy
 import math
 import line
 import circle
@@ -27,6 +29,7 @@ def drawAcurve(event):
         putPixel(coordinates[2], coordinates[3])
         putPixel(coordinates[4], coordinates[5])
         putPixel(coordinates[6], coordinates[7])
+        myBezier(coordinates[0],coordinates[2],coordinates[4],coordinates[6], coordinates[1], coordinates[3], coordinates[5], coordinates[7])
 
 def putPixel(x, y, color="red"):
     img.put(color, (x, y))
@@ -101,6 +104,37 @@ def myCircle2(xc, x2, yc, y2):
     if x == y:
         plot_circle_points(xc, yc, y, x)
 
+
+def myBezier(x1,x2,x3,x4,y1,y2,y3,y4,numOfSegments=10):
+    path_positions = [(x1,y1), (x2,y2), (x3,y3), (x4,y4)]
+
+    P0 = path_positions[0]
+    P1 = path_positions[1]
+    P2 = path_positions[2]
+    P3 = path_positions[3]
+
+    speed = 1 / numOfSegments
+    t = 0
+    old_pos_x, old_pos_y = (x1,y1)
+    while t < 1:
+        t += speed
+        P0_x = pow((1 - t), 3) * P0[0]
+        P0_y = pow((1 - t), 3) * P0[1]
+
+        P1_x = 3 * pow((1 - t), 2) * t * P1[0]
+        P1_y = 3 * pow((1 - t), 2) * t * P1[1]
+
+        P2_x = 3 * (1 - t) * pow(t, 2) * P2[0]
+        P2_y = 3.0 * (1 - t) * pow(t, 2) * P2[1]
+
+        P3_x = pow(t, 3) * P3[0]
+        P3_y = pow(t, 3) * P3[1]
+
+        formular = ((P0_x + P1_x + P2_x + P3_x), (P0_y + P1_y + P2_y + P3_y))
+        x, y = formular
+        myLine(round(old_pos_x),round(old_pos_y),round(x),round(y))
+        old_pos_x, old_pos_y = (x,y)
+        time.sleep(0.02)
 
 def handle_line_menu():
     window.bind('<Button-1>', drawAline)
