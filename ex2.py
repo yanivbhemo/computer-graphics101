@@ -1,6 +1,5 @@
 from tkinter import *
 import time
-import numpy
 import math
 import line
 import circle
